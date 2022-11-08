@@ -1,0 +1,27 @@
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from "cors"
+import userRoute from './routes/UserRoutes.js';
+import productRoute from './routes/ProductRoute.js';
+import facturaRoute from './routes/FacturaRoute.js';
+
+const app = express()
+const port = 3001
+
+app.use(express.json());
+app.use(cors({ origin: true }));
+app.use(userRoute);
+app.use(productRoute);
+app.use(facturaRoute)
+
+app.listen(port, async () => {
+  try {
+    await mongoose.connect('mongodb+srv://jgaviriaq:71294859jgq@cluster0.cxrgni5.mongodb.net/TiendaCic?retryWrites=true', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  } catch (error) {
+    console.error("Error de conexión en la BD")
+  }
+  console.log(`Server listening at http://localhost:${port}`)
+})
